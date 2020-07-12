@@ -37,6 +37,7 @@ def extract_speed_info(soup: BeautifulSoup) -> dict:
 def run_speed_test() -> dict:
     with get_firefox() as driver:
         driver.get('https://fast.com/en')
+        
         # Obtain download speeds
         download_done_selector = '#speed-value.succeeded'
         wait_visible(driver, download_done_selector, timeout=60)
@@ -53,7 +54,6 @@ def run_speed_test() -> dict:
         results_el = driver.find_element_by_css_selector(results_selector)
         results_html = results_el.get_attribute('outerHTML')
 
-    # we're finished with chrome, let it close (by exiting with block)
     soup = BeautifulSoup(results_html, 'html.parser')
     info = extract_speed_info(soup)
     print(info)
