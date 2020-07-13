@@ -25,9 +25,13 @@ def wait_visible(driver: Firefox, selector: str, timeout: int = 2):
 
 
 def extract_speed_info(soup: BeautifulSoup) -> dict:
-    dl_speed = soup.select_one('#speed-value').text
-    upload_speed = soup.select_one('#upload-value').text
-
+    dl_speed = float(soup.select_one('#speed-value').text)
+    upload_speed = float(soup.select_one('#upload-value').text)
+    if soup.select_one('#upload-units').text == 'Kbps':
+        upload_speed/=1000
+    if soup.select_one('#speed-units').text == 'Kbps':
+        dl_speed/=1000
+        
     return {
         'upload': float(upload_speed),
         'download': float(dl_speed)
