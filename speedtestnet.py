@@ -1,23 +1,29 @@
-from selenium.webdriver import Firefox, FirefoxOptions
+from selenium.webdriver import Chrome, ChromeOptions
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 from contextlib import contextmanager
+import time
 
 
 @contextmanager
-def get_firefox() -> Firefox:
+def get_chrome() -> Chrome:
     # https://docs.python.org/3.7/library/contextlib.html#contextlib.contextmanager
-    opts = FirefoxOptions()
-    opts.headless = True
-    driver = Firefox(options=opts,executable_path=r'C:\uni\Uni\BA\Jaar 2\Semester 2\Big data\WPy64-3741\notebooks\fast.com\geckodriver.exe')
+    opts = ChromeOptions()
+    opts.headless = False
+    opts.add_argument('disable-infobars')
+    opts.add_argument('disable-extensions')
+    opts.add_argument('no-sandbox')
+    opts.add_argument('disable-dev-shm-usage')
+    driver = Chrome(options=opts,executable_path=r'/usr/lib/chromium-browser/chromedriver')
     yield driver
     driver.close()
+    driver.quit()
 
 
-def wait_visible(driver: Firefox, selector: str, timeout: int = 2):
+def wait_visible(driver: Chrome, selector: str, timeout: int = 2):
     cond = EC.visibility_of_any_elements_located((By.CSS_SELECTOR, selector))
     try:
         WebDriverWait(driver, timeout).until(cond)
@@ -42,11 +48,11 @@ def extract_speed_info(soup: BeautifulSoup) -> dict:
 
 
 def run_speed_test() -> dict:
-    with get_firefox() as driver:
+    with get_chrome() as driver:
         driver.get('https://speedtest.net/run')
         # Obtain download speeds
         download_done_selector = '.result-container-speed-active'
-        wait_visible(driver, download_done_selector, timeout=100)
+        wait_visible(driver, download_done_selector, timeout=300)
         
         # Select the resulting speeds
         results_selector = '.result-container-data'
@@ -58,4 +64,6 @@ def run_speed_test() -> dict:
     print(info)
     return info
 if __name__ == '__main__':
+    start_time=time.time()
     run_speed_test()
+    print("--- %s seconds ---"% (time.time()-start_time))
