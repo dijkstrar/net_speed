@@ -11,6 +11,11 @@ def get_chrome() -> Chrome:
     # https://docs.python.org/3.7/library/contextlib.html#contextlib.contextmanager
     opts = ChromeOptions()
     opts.headless = True
+    opts.add_argument('disable-infobars')
+    opts.add_argument('disable-extensions')
+    opts.add_argument('no-sandbox')
+    opts.add_argument('disable-dev-shm-usage')
+    opts.add_argument('no-proxy-server')
     driver = Chrome(options=opts,executable_path=r'/usr/lib/chromium-browser/chromedriver')
     yield driver
     driver.close()
