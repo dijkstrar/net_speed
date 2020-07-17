@@ -6,6 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 from contextlib import contextmanager
 import time
+import pandas as pd
 
 
 @contextmanager
@@ -63,8 +64,21 @@ def run_speed_test() -> dict:
     info = extract_speed_info(soup)
     print(info)
     return info
+
+def write_file(file_name,result_dict):
+    file = open(file_name,'a')
+    date = pd.to_datetime("today").strftime("%Y/%m/%d %H:%M:%S")
+    file.write(date+';'+str(result_dict['download'])+';'
+               +str(result_dict['upload'])+';'+str(result_dict['ping'])+'\n')
+    file.close()
+
 if __name__ == '__main__':
     start_time=time.time()
     print('---FETCHING SPEEDS---')
-    run_speed_test()
+    try:
+        result = run_speed_test()
+        write_file('log.txt',result)
+    except Exception as e:
+        print('error')
+        print(e)
     print("--- %s seconds ---"% (time.time()-start_time))
