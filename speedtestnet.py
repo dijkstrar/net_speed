@@ -12,7 +12,7 @@ import time
 def get_chrome() -> Chrome:
     # https://docs.python.org/3.7/library/contextlib.html#contextlib.contextmanager
     opts = ChromeOptions()
-    opts.headless = False
+    opts.headless = True
     opts.add_argument('disable-infobars')
     opts.add_argument('disable-extensions')
     opts.add_argument('no-sandbox')
