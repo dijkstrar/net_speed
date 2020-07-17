@@ -65,6 +65,6 @@ def run_speed_test() -> dict:
     return info
 if __name__ == '__main__':
     start_time=time.time()
-    print('FETCHING SPEEDS')
+    print('---FETCHING SPEEDS---')
     run_speed_test()
     print("--- %s seconds ---"% (time.time()-start_time))
