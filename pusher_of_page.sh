@@ -1,8 +1,9 @@
 #!/bin/bash -e
 
 #navigate to right folder
-function pusher_of_page(){
-cd ../dijkstrar.github.io/ &&
+pusher_of_page()
+{
+cd "/dijkstrar.github.io" &&
 git add . &&
 git commit -m "Automatically push changes to github pages of generated plots" &&
 echo "Pushing data to remote server!!!" &&

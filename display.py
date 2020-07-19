@@ -5,6 +5,7 @@ import plotly
 import plotly.graph_objects as go
 import plotly.express as px
 import subprocess
+import sys
 
 def get_title(column):
     if column=="Download":
@@ -69,4 +70,4 @@ if __name__ == '__main__':
     df=pd.read_csv('log.txt',sep=';',index_col='Date')
     df.index=pd.to_datetime(df.index)
     write_markup(df)
-    subprocess.call(['./pusher_of_page.sh'])
+    subprocess.call([sys.executable,'./pusher_of_page.sh'])
