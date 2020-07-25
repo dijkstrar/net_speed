@@ -22,7 +22,7 @@ if __name__ == '__main__':
     print('---FETCHING SPEEDS---')
     try:
         result = fetch_results()
-        write_file('log.txt',result)
+        write_file('/home/pi/net_speed/log.txt',result)
     except Exception as e:
         print('error')
         print(e)

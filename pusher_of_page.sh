@@ -3,12 +3,14 @@
 #navigate to right folder
 pusher_of_page()
 {
-cd "/dijkstrar.github.io" &&
-git add . &&
-git commit -m "Automatically push changes to github pages of generated plots" &&
-echo "Pushing data to remote server!!!" &&
-git push -u origin master &&
-echo "Done!"
+cd /home/pi/dijkstrar.github.io &&\
+git fetch && \
+git pull && \
+git add . &&\
+git commit -m "Automatically push changes to github pages of generated plots" &&\
+echo "Pushing data to remote server!!!" &&\
+git push -u origin master &&\
+echo "Done!" &&\ 
 }
 pusher_of_page
 

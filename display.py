@@ -41,7 +41,7 @@ def get_html(column,df):
 
 def write_markup(df):
     ############################ CHANGE PATHS #######################
-    path = '../dijkstrar.github.io/_portfolio/html_trial.md'
+    path = '/home/pi/dijkstrar.github.io/_portfolio/html_trial.md'
     title_md = "--- \ntitle: \'Test HTML plotly\' \ndate: 2020-07-13 \npermalink: /portfolio/2020/07/plotly-html/ \n---\n\n"
     update_date_md = "History of internet speed tests, updated at: "+str(pd.to_datetime("today").strftime("%Y/%m/%d %H:%M")+"\n\n")
     body_md = "This is a dynamically updating web page. Internet speeds (download, upload and ping) get measured at a regular interval on a Raspberry Pi3b. Measurements of these speeds takes place via <https://speedtest.net> with the help of the [speedtest-cli package](https://pypi.org/project/speedtest-cli/).\n\n The measured speeds get recorded and displayed in the plots below. Ziggo (ISP) promises to deliver speeds of 100MB/s download, and upload. Whenever these speeds are not obtained, Ziggo will be automatically notified via twitter [@renzecodes](https://twitter.com/renzecodes). A history of download, upload speeds and ping are displayed in the Figures below, the history of internet speeds will be used to detect anomalies. Plots are created with the help of [Plotly package](https://plotly.com). Full code available on <https://github.com/dijkstrar/net_speed> \n"
@@ -67,7 +67,7 @@ def write_markup(df):
         f.close()
 
 if __name__ == '__main__':
-    df=pd.read_csv('log.txt',sep=';',index_col='Date')
+    df=pd.read_csv('/home/pi/net_speed/log.txt',sep=';',index_col='Date')
     df.index=pd.to_datetime(df.index)
     write_markup(df)
-    subprocess.call([sys.executable,'./pusher_of_page.sh'])
+    subprocess.call(['/home/pi/net_speed/pusher_of_page.sh'],shell=True)
