@@ -41,8 +41,8 @@ def get_html(column,df):
 
 def write_markup(df):
     ############################ CHANGE PATHS #######################
-    path = '/home/pi/dijkstrar.github.io/_portfolio/html_trial.md'
-    title_md = "--- \ntitle: \'Test HTML plotly\' \ndate: 2020-07-13 \npermalink: /portfolio/2020/07/plotly-html/ \n---\n\n"
+    path = '//home/pi/dijkstrar.github.io/_portfolio/speedtracker.md'
+    title_md = "--- \ntitle: \'Internet Speedtracker\' \ndate: 2020-07-13 \npermalink: /portfolio/2020/07/plotly-html/ \n---\n\n"
     update_date_md = "History of internet speed tests, updated at: "+str(pd.to_datetime("today").strftime("%Y/%m/%d %H:%M")+"\n\n")
     body_md = "This is a dynamically updating web page. Internet speeds (download, upload and ping) get measured at a regular interval on a Raspberry Pi3b. Measurements of these speeds takes place via <https://speedtest.net> with the help of the [speedtest-cli package](https://pypi.org/project/speedtest-cli/).\n\n The measured speeds get recorded and displayed in the plots below. Ziggo (ISP) promises to deliver speeds of 100MB/s download, and upload. Whenever these speeds are not obtained, Ziggo will be automatically notified via twitter [@renzecodes](https://twitter.com/renzecodes). A history of download, upload speeds and ping are displayed in the Figures below, the history of internet speeds will be used to detect anomalies. Plots are created with the help of [Plotly package](https://plotly.com). Full code available on <https://github.com/dijkstrar/net_speed> \n"
     javascript_md = '<script src="https://cdn.plot.ly/plotly-latest.min.js"></script> \n'
