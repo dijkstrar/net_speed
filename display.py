@@ -15,6 +15,68 @@ def get_title(column):
     else:
         return 'History of Ping'
 
+def get_dropdown_graph(df):
+    fig = go.Figure()
+    for column in df.columns:
+        fig.add_trace(
+            go.Scatter(
+                x = df.index,
+                y = df[column],
+                name = column,
+                line=dict(color='#000000'),
+                visible=False
+                )
+            )
+    fig.update_layout(template="simple_white")
+    fig.update_layout(
+        updatemenus=[go.layout.Updatemenu(
+            active=0,
+            direction='down',
+            buttons=list(
+                [dict(label = 'Select Metric',
+                      method = 'update',
+                      args = [{'visible': [False]*12}, # the index of True aligns with the indices of plot traces
+                              {'title': 'Please Select a Supermarket',
+                               'showlegend':False}])
+                 ,dict(label = 'Download',
+                      method = 'update',
+                      args = [{'visible': [True]+[False]*2}, # the index of True aligns with the indices of plot traces
+                              {'title': 'Download (Mb/s)',
+                               'showlegend':True}]),
+                 dict(label = 'Upload',
+                      method = 'update',
+                      args = [{'visible': [False]+[True]+[False]},
+                              {'title': 'Upload (Mb/s)',
+                               'showlegend':True}]),
+                 dict(label = 'Ping',
+                      method = 'update',
+                      args = [{'visible': [False]*2+[True]},
+                              {'title': 'Ping',
+                               'showlegend':True}]),
+                ])
+            )
+        ])
+
+    fig.update_yaxes(rangemode="tozero")
+    fig.update_xaxes(
+        rangeslider_visible=True,
+        rangeselector=dict(
+            buttons=list([
+                dict(count=24, label="24h", step="hour", stepmode="todate"),
+                dict(count=7, label="1w", step="day", stepmode="todate"),
+                dict(count=14, label="2w", step="day", stepmode="todate"),
+                dict(count=1, label="1m", step="month", stepmode="todate"),
+                dict(count=6, label="6m", step="month", stepmode="todate"),
+                dict(count=1, label="YTD", step="year", stepmode="todate"),
+                dict(step="all",label="All")
+            ])
+        )
+    )
+
+    string = plotly.io.to_html(fig,full_html=False,include_plotlyjs=False)
+    string=string.replace("\n", "")
+    return string
+
 def get_html(column,df):
     fig = px.line(df, x=df.index, y=column, title=get_title(column))
     fig.update_yaxes(rangemode="tozero")
@@ -52,9 +114,10 @@ def write_markup(df):
             f.write(update_date_md)
             f.write(body_md)
             f.write(javascript_md)
-            for col in df.columns:
-                f.write(get_html(col,df))
-                f.write("\n\n")
+            f.write(get_dropdown_graph(df))
+            # for col in df.columns:
+            #     f.write(get_html(col,df))
+            #     f.write("\n\n")
         f.close()
     except:
         print('Error occurred in Generating plotly files')
