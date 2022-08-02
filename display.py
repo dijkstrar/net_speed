@@ -1,11 +1,16 @@
 import pandas as pd 
 import time
+import matplotlib
+matplotlib.use('Agg')
+
 import matplotlib.pyplot as plt
 import plotly
 import plotly.graph_objects as go
 import plotly.express as px
 import subprocess
+
 import sys
+ 
 
 def get_title(column):
     if column=="Download":
@@ -31,6 +36,7 @@ def get_dropdown_graph(df):
     fig.update_layout(
         updatemenus=[go.layout.Updatemenu(
             active=0,
+
             direction='down',
             buttons=list(
                 [dict(label = 'Select Metric',

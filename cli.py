@@ -20,10 +20,6 @@ def write_file(file_name,result_dict):
 if __name__ == '__main__':
     start_time=time.time()
     print('---FETCHING SPEEDS---')
-    try:
-        result = fetch_results()
-        write_file('/home/pi/net_speed/log.txt',result)
-    except Exception as e:
-        print('error')
-        print(e)
+    result = fetch_results()
+    write_file('/home/pi/net_speed/log.txt',result)
     print("--- %s seconds ---"% (time.time()-start_time))
